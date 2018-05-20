@@ -171,10 +171,13 @@
 
 
       <div class="decorate right" style="margin-top:85px;margin-right:40px;"></div>
-      {% for message in messages %}
 
-      <span class="error" style="font-size:10px;color:red;margin-top:100px;margin-left:190px;">{{message}}</span>
+
+      <span class="error" style="font-size:10px;color:red;margin-top:100px;margin-left:190px;">
+        {% for message in messages %}
+        {{message}}
       {% endfor %}
+      </span>
       <form name='my_form' action='/login/' method='POST' >
           {% csrf_token %}
           <div class="formgroup" id="id-form">
@@ -188,7 +191,7 @@
             readonly onfocus="this.removeAttribute('readonly')" placeholder="Password">
 
           </div>
-          <button type="submit" class="ui blue button" style="margin-top:200px;margin-left:115px;">Login</button>
+          <button type="submit" class="ui blue button" style="margin-top:140px;margin-left:115px;">Login</button>
           <div class="decorate big" style="margin-top:30px;margin-left:400px;">
             <div class="decorate small" style="margin-top:30px;margin-left:430px;">
           </div>
