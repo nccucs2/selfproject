@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^student/gpa/$',gpa.gpa),
     url(r'^student/course/$',views.course),
     url(r'^student/suggest_course/$',views.suggest_course),
+    url(r'^accounts/register/$',views.register),
 ]

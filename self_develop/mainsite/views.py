@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,render_to_response
 from django.core.mail import EmailMessage
 from django.template import RequestContext
 from django.template import Context, Template
@@ -6,6 +6,7 @@ from django.template.loader import get_template
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 def login(request):
     #template = get_template('login.html')
     if request.user.is_authenticated:
@@ -39,6 +40,16 @@ def login(request):
 
 
         #return render_to_response('login.html')
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            return HttpResponseRedirect('/login/')
+    else:
+        form = UserCreationForm()
+    return render(request,'register.html',{'form':form})
+
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/student/')
