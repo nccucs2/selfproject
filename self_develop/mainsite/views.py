@@ -46,6 +46,9 @@ def register(request):
         if form.is_valid():
             user = form.save()
             return HttpResponseRedirect('/login/')
+        else:
+            messages.error(request,'輸入格式有誤!')
+
     else:
         form = UserCreationForm()
     return render(request,'register.html',{'form':form})
