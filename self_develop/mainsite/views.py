@@ -55,7 +55,7 @@ def register(request):
 
 def logout(request):
     auth.logout(request)
-    return HttpResponseRedirect('/student/')
+    return HttpResponseRedirect('/login/')
 
 def student(request):
     return render(request,'student.html')
