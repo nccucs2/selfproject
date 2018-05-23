@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from mainsite.models import student_info
 def login(request):
     #template = get_template('login.html')
     if request.user.is_authenticated:
@@ -29,14 +30,8 @@ def login(request):
     else:
         if request.POST:
             messages.error(request,'帳號或密碼錯誤!!')
-        return render(request,'login.html',)
+        return render(request,'login.html')
 
-        """
-        messages.error(request,'username or password not correct')
-        return HttpResponseRedirect('/login/')
-        html = template.render(locals())
-        return HttpResponse(html)
-        """
 
 
         #return render_to_response('login.html')
@@ -45,20 +40,26 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            return HttpResponseRedirect('/login/')
+            return HttpResponseRedirect('/accounts/identify/')
         else:
             messages.error(request,'輸入格式有誤!')
-
     else:
         form = UserCreationForm()
     return render(request,'register.html',{'form':form})
-
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/login/')
-
+def identify(request):
+    if request.POST:
+        p=student_info.objects.create(major=request.POST['major'],name=request.POST['name'],number=request.POST['number'])
+        p.save();
+        return HttpResponseRedirect('/login/')
+    return render(request,'identify.html')
 def student(request):
-    return render(request,'student.html')
+    if request.user.is_authenticated:
+        return render(request,'student.html')
+    else:
+        return HttpResponseRedirect('/login/')
 
 def course(request):
     return render(request,'course.html')

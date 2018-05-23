@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^student/course/$',views.course),
     url(r'^student/suggest_course/$',views.suggest_course),
     url(r'^accounts/register/$',views.register),
+    url(r'^accounts/identify/$',views.identify),
 ]
