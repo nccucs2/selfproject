@@ -8,6 +8,8 @@ from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from mainsite.models import student_info
+from django.shortcuts import get_object_or_404
+
 def login(request):
     #template = get_template('login.html')
     if request.user.is_authenticated:
@@ -16,12 +18,11 @@ def login(request):
         username = request.POST['usr_id']
         password = request.POST['usr_pass']
         user = auth.authenticate(username=username, password=password)
+
     except:
         user = None
-
         #user_id = None
         #user_password = None
-
 
     if user is not None:
         if user.is_active:
@@ -56,8 +57,13 @@ def identify(request):
         return HttpResponseRedirect('/login/')
     return render(request,'identify.html')
 def student(request):
+    #print(request)
     if request.user.is_authenticated:
-        return render(request,'student.html')
+        students=student_info.objects.get(number=request.user)
+        return render(request,'student.html',{
+        'students':students,
+        })
+
     else:
         return HttpResponseRedirect('/login/')
 
