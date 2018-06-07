@@ -8,6 +8,9 @@ from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from mainsite.models import student_info
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+
 def login(request):
     #template = get_template('login.html')
     if request.user.is_authenticated:
@@ -16,12 +19,11 @@ def login(request):
         username = request.POST['usr_id']
         password = request.POST['usr_pass']
         user = auth.authenticate(username=username, password=password)
+
     except:
         user = None
-
         #user_id = None
         #user_password = None
-
 
     if user is not None:
         if user.is_active:
@@ -50,14 +52,20 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/login/')
 def identify(request):
+    q = User.objects.all()
     if request.POST:
-        p=student_info.objects.create(major=request.POST['major'],name=request.POST['name'],number=request.POST['number'])
+        p=student_info.objects.create(user=q[len(q)-1],major=request.POST['major'],name=request.POST['name'],number=request.POST['number'])
         p.save();
         return HttpResponseRedirect('/login/')
     return render(request,'identify.html')
 def student(request):
+    #print(request)
     if request.user.is_authenticated:
-        return render(request,'student.html')
+        students=student_info.objects.get(user=request.user)
+        return render(request,'student.html',{
+        'students':students,
+        })
+
     else:
         return HttpResponseRedirect('/login/')
 
