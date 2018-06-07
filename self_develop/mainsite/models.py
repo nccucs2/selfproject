@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Student(models.Model):
-    Student_ID = models.IntegerField(default=0, primary_key=True)
+    #Student_ID = models.IntegerField(default=0, primary_key=True)
+    Student = models.ForeignKey(User, on_delete= models.CASCADE)
     Name = models.CharField(max_length=200)
     def __str__(self):
         return self.Name
