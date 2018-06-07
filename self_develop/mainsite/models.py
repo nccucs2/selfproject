@@ -1,10 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+#from django.contrib.auth import get_user_model
+#from django.conf import settings
 
 class Student(models.Model):
-    #Student_ID = models.IntegerField(default=0, primary_key=True)
-    Student = models.ForeignKey(User, on_delete= models.CASCADE)
-    Name = models.CharField(max_length=200)
+    Student_ID = models.IntegerField(default=0, primary_key=True)
+    #student = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    
+    Name = models.CharField(max_length=200,default='SOME STRING')
     def __str__(self):
         return self.Name
 
